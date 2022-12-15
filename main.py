@@ -42,7 +42,7 @@ class Net(torch.nn.Module):
         super().__init__()
         self.layers = []
         for d in range(len(dims) - 1):
-            self.layers += [Layer(dims[d], dims[d + 1]).cuda()]
+            self.layers += [Layer(dims[d], dims[d + 1]).to("mps")]
 
     def predict(self, x):
         goodness_per_label = []
@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
     net = Net([784, 500, 500])
     x, y = next(iter(train_loader))
-    x, y = x.cuda(), y.cuda()
+    x, y = x.to("mps"), y.to("mps")
     x_pos = overlay_y_on_x(x, y)
     rnd = torch.randperm(x.size(0))
     x_neg = overlay_y_on_x(x, y[rnd])
@@ -109,6 +109,6 @@ if __name__ == "__main__":
     print('train error:', 1.0 - net.predict(x).eq(y).float().mean().item())
 
     x_te, y_te = next(iter(test_loader))
-    x_te, y_te = x_te.cuda(), y_te.cuda()
+    x_te, y_te = x_te.to("mps"), y_te.to("mps")
 
     print('test error:', 1.0 - net.predict(x_te).eq(y_te).float().mean().item())
