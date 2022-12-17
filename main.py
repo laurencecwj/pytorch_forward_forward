@@ -6,7 +6,10 @@ from torchvision.datasets import MNIST
 from torchvision.transforms import Compose, ToTensor, Normalize, Lambda
 from torch.utils.data import DataLoader
 
-is_mps = torch.backends.mps.is_available()
+try:
+    is_mps = torch.backends.mps.is_available()
+except:
+    is_mps = False
 is_cuda = torch.cuda.is_available()
 
 device = "cpu"
