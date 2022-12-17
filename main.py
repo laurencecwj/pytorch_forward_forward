@@ -17,6 +17,8 @@ if is_mps:
     device = "mps"
 if is_cuda:
     device = "cuda" 
+    
+print("using device: ", device)
 
 def MNIST_loaders(train_batch_size=50000, test_batch_size=10000):
 
